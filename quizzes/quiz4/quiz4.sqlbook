@@ -7,6 +7,8 @@
 Write your Emory ID as a comment (use double dash)
 -- SQLBook: Code
 
+-- 2485592
+Select '2485592' as "My Student ID"; 
 -- SQLBook: Markup
 <font size = "5" >
 This quiz is open book 
@@ -21,7 +23,7 @@ Write the following message as a comment: <br>
 "I will abide by Emory's code of conduct"
 
 -- SQLBook: Code
-
+-- I will abide by Emory's code of conduxt
 -- SQLBook: Markup
 
 <font size = "5">
@@ -52,9 +54,25 @@ the image and following the instructions in Lecture 16
 HINT: Include any column names with upper case in doube quotations, <br> e.g.
 "raceId". If you don't you'll get an error
 -- SQLBook: Code
+-- Active: 1698652013646@@127.0.0.1@5432@formula1
 -- Write your own code
+Drop table IF EXISTS lap_times;
+CREATE TABLE lap_times (
+    "raceId" int, 
+    "driverId" int,
+    "lap" int,
+    "position" int,
+    "time" TIME, 
+    "milliseconds" int
+)
 -- SQLBook: Code
 -- Write your own code
+INSERT INTO lap_times  VALUES (841, 20, 1, 1, '01:38.1', 98109);
+INSERT INTO lap_times  VALUES (167, 64, 48, 10, '01:14.0', 73984);
+INSERT INTO lap_times  VALUES (341, 3, 65, 13, '01:29.6', 89626);
+
+
+
 -- SQLBook: Markup
 <font size = "5">
 
@@ -85,7 +103,14 @@ HINT: Remember to always refer to column names with at <br>
 least one capital letter with double quotations, e.g. "driverId" <br>
 HINT: See Lecture 16
 -- SQLBook: Code
+-- Active: 1698652013646@@127.0.0.1@5432@formula1
 -- Write your own code
+select * 
+from pit_stops
+where 1<=lap and lap<=5
+order by milliseconds ASC;
+
+
 -- SQLBook: Markup
 <font size = "5">
 
@@ -101,6 +126,9 @@ grouped by "driverId" using SELECT, FROM, and GROUP BY.
 HINT: See the end of lectures 16
 -- SQLBook: Code
 -- Write your own code
+select "driverId", min(milliseconds) as "Minimum milliseconds", max(milliseconds) as "Maximum milliseconds"
+from pit_stops
+GROUP BY "driverId"
 -- SQLBook: Markup
 
 <font size = "5">
@@ -118,6 +146,11 @@ HINT: Remember to include "driverId" in double <br>
 quotations it includes a mix of lower case and upper case letters
 -- SQLBook: Code
 -- Write your own code
+SELECT "driverId", count(*) as "total number of rows"
+FROM pit_stops
+GROUP BY "driverId"
+ORDER BY "total number of rows" DESC;
+
 -- SQLBook: Markup
 
 <font size = "5">
@@ -132,12 +165,7 @@ number of rows by "driverId" ```GROUP BY``` <br>
  using ```HAVING ```
 -- SQLBook: Code
 -- Write your own code
--- SQLBook: Code
-
--- BASIC SYNTAX OF SQL:
-
--- Commands separated by a semicolon ";"
--- Commands in upper case, inputs lower case
--- Include comments with two dashes "--"
--- Arguments in parenthesis, separated by a comma ","
--- For strings, use single quotations '...', not double "...".
+SELECT "driverId", count(*) as "total number of rows"
+FROM pit_stops
+GROUP BY "driverId"
+HAVING sum(stop) > 200;
